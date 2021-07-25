@@ -9,162 +9,301 @@
         <link rel="stylesheet" href="assets/app.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+        <script src="scripties/jquery.js"></script>
+        <script src="scripties/underscore.js"> </script>
+        <script src="scripties/backbone.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="manifest" href="./manifest.json">
     </head>
 
     <body>
-        <div class="row no-gutters">
-            <div class="col-12 col-md-10 no-gutters">
-                <div class="row no-gutters grid2x2">
-                    <div id="knightTree" class="col-6 col-sm-6 no-gutters  box box1">
-                    </div>
-                    <div id="warlordTree" class="col-6 col-sm-6 no-gutters  box box2">
-                    </div>
-                </div>
-                <div class="row no-gutters grid2x2">
-                <div id="sorcererTree" class="col-6 col-sm-6 no-gutters  box box3">
-                </div>
-                <div id="rogueTree" class="col-6 col-sm-6 no-gutters   box box4">
-                    <div class="parrotInfo">
-                        <span>
-                        Author: Parrot6
-                        Discord: Parrot6#7225
-                        Reddit: u/Killerparrot6   
-                        </span>
-                    </div>
-                </div>
-                </div>
-
-            </div>
-            <div class="col-3 col-md-2 no-gutters">
-                    <Strong>Skill Rankings:</Strong>
-                    <div id="SkillRankings">
-
-                    </div>
-            </div>
-            <div class="col-9 col-md-12 no-gutters">
-                <div class="row buildTypeSection no-gutters">
-                    <div class="col-2 col-sm">
-                        <div class="row no-gutters">
-                            <div class="col-auto alignLabelVert">
-                                <label for="dmgchoices">Dmg Type:</label>
-                            </div>
-                            <div class="col-12 col-sm">
-                                <select name="dmgchoices" id="buildDmgType">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row no-gutters">
-                            <div class="col-auto alignLabelVert">
-                                <label for="cars">Gold Type:</label>
-                            </div>
-                            <div class="col-12 col-sm">
-                                <select name="goldchoices" id="buildGoldType">
-                                </select>
-                            </div>
-                        </div>
+        <div class="sheetNavigation row no-gutters">
+            <div id="sp" class="sheetNavigationButton col no-gutters text-center active"><a href="#sp">SP Optimizer</a></div>
+            <div id="artifact" class="sheetNavigationButton col no-gutters text-center"><a href="#artifact">Artifact Optimizer (W.I.P)</a></div>
+            <div id="other" class="sheetNavigationButton col no-gutters text-center"><a href="#other">Other</a></div>
+            <div class="col no-gutters text-center"><button style="height: calc(100% - 6px);" class="controllerButtonImport" onclick="(()=>{window.location.reload(true)})()">v2.5 (Click To Check Update)</button></div>
+        </div>
+        <div class="row buildTypeSection no-gutters">
+            <div class="col-md-3 col-sm-12">
+                <div class="row no-gutters">
+                    <div class="col-2 alignLabelVert">
+                        <label for="dmgchoices">Dmg Type:&nbsp</label>
                     </div>
                     <div class="col">
-                        <div class="row  no-gutters">
-                            <div class="col-auto alignLabelVert">
-                                <label>Sp Spent:</label>
-                            </div>
-                            <div class="col-12 col-sm">
-                                <input id="spSpent" disabled value="0"/>
-                            </div>
-                        </div>
-                        <button class="controllerButton" onclick="resetTree()">Reset Tree</button>
+                        <select name="dmgchoices" id="buildDmgType">
+                        </select>
                     </div>
-                    <div class="col">
-                        <div class="row no-gutters">
-                            <div class="col-auto alignLabelVert">
-                                <label>Starting Sp:</label>
-                            </div>
-                            <div class="col-12 col-sm">
-                                <input onchange="updateStartingSp(this)" id="startingSp"/>
-                            </div>
-                        </div>
-                        
-                        
-                        <button class="controllerButton" onclick="spendAllSP()">Spend All Available Sp</button>
-                    </div>
-    
                 </div>
                 <div class="row no-gutters">
-                    <div class="col col-gutters">
-                        <Button class="controllerButtonImport" onclick="importData(false)">Import Stats from Clipboard</Button>
-                       <!--- <Button class="controllerButtonImport" onclick="importData(true)">Import Stats from Cookies (TODO)</Button> --->
-                        <div class="row no-gutters">
-                            <div class="col-auto alignLabelVert">
-                                <label><Strong>Skills</Strong></label>
-                            </div>
-                            <div class="col">
-                                <button id="loadSkills" onclick="loadSkillsFrom(playerSkills)" class="controllerButtonImport">Load Skills</button>
-                            </div>
-                            
-                        </div>
-                        <div id="Skills">
-                            
-                        </div>
+                    <div class="col-2 alignLabelVert">
+                        <label for="cars">Gold Type:&nbsp</label>
                     </div>
-                    <div class="col col-gutters">
-                        <div><Strong>Equipment Sets</Strong>
-                        <div id="EquipmentSets">
-                            
-                        </div>
-                    </div> 
+                    <div class="col">
+                        <select name="goldchoices" id="buildGoldType">
+                        </select>
                     </div>
-                    <div class="col col-gutters">
-                        <div class="row no-gutters">
-                            <div class="col-auto alignLabelVert">
-                                <label><Strong>Statistics</Strong></label>
+                </div>
+            </div>
+            <div class="col spTopChoices">
+                <div class="row  no-gutters">
+                    <div class="col-auto alignLabelVert">
+                        <label>Sp Spent:&nbsp</label>
+                    </div>
+                    <div class="col-12 col-sm">
+                        <input id="spSpent" disabled value="0"/>
+                    </div>
+                </div>
+                <button class="controllerButton" onclick="resetTree()">Reset Tree</button>
+            </div>
+            <div class="col spTopChoices">
+                <div class="row no-gutters">
+                    <div class="col-auto alignLabelVert">
+                        <label>Starting Sp:&nbsp</label>
+                    </div>
+                    <div class="col-12 col-sm">
+                        <input onchange="updateStartingSp(this)" id="startingSp"/>
+                    </div>
+                </div>
+                <button class="controllerButton" onclick="spendAllSP()">Spend All Available Sp</button>
+            </div>
+            <div class="col artifactTopChoices">
+                <div class="row no-gutters">
+                    <div class="col-3 alignLabelVert">
+                        <label for="cars">Hero Type:&nbsp</label>
+                    </div>
+                    <div class="col">
+                        <select onchange="processArtifacts(artifactCSV)" id="artifactHeroType">
+                            <option value="Ranged">Ranged</option>
+                            <option value="Melee">Melee</option>
+                            <option value="Mage">Mage</option>
+                            <option value="All">Equal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row no-gutters">
+                    <div class="col-3 alignLabelVert">
+                        <label for="cars">Ground/Flying:&nbsp</label>
+                    </div>
+                    <div class="col">
+                        <select onchange="processArtifacts(artifactCSV)" id="artifactFlyingGroundType">
+                            <option value="Flying">Flying</option>
+                            <option value="Ground">Ground</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row no-gutters">
+                    <div class="col-3 alignLabelVert">
+                        <label for="cars">Artifact View:</label>
+                    </div>
+                    <div class="col">
+                        <select onchange="artifactViewToggle()" id="artifactViewChoice">
+                            <option value="True">Show Upgrades Only</option>
+                            <option value="False">Show Artifacts and Upgrades</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2 artifactTopChoices text-center">
+                <div id="artifactsDiscovered" class="mt-1">Artifacts: 98/98</div>
+                <div id="enchantmentsDiscovered" class="mt-2">Enchantments: 34/34</div> 
+            </div>
+        </div>
+        <div class="sheet active" id="spOptimizer">
+            <div class="row no-gutters">
+                <div class="col-12 col-md-10 no-gutters">
+                    <div class="row no-gutters grid2x2">
+                        <div id="knightTree" class="col-6 col-sm-6 col-xl-4 no-gutters box box0">
+                        </div>
+                        <div id="petTree" class="col-6 col-sm-6 col-xl-4 no-gutters box box1">
+                        </div>
+                    <!-- </div>
+                    <div class="row no-gutters grid2x2"> -->
+                        <div id="warlordTree" class="col-6 col-sm-6 col-xl-4 no-gutters box box2">
+                        </div>
+                        <div id="sorcererTree" class="col-6 col-sm-6 col-xl-4 no-gutters box box3">
+                        </div>
+                    <!-- </div>
+                    <div class="row no-gutters grid2x2"> -->
+                    <div id="rogueTree" class="col-6 col-sm-6 col-xl-4 no-gutters box box4">
+                    </div>
+                    <div id="tbdTree" class="col-6 col-sm-6 col-xl-4 no-gutters box box5 text-center">
+                        Soon™️
+                    </div>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2 no-gutters">
+                        <Strong>Skill Rankings:</Strong>
+                        <div id="SkillRankings">
+
+                        </div>
+                </div>
+                <div class="col-9 col-md-12 no-gutters">
+
+                    <div class="row no-gutters">
+                        <div class="col importCol col-gutters">
+                            <Button class="controllerButtonImport" onclick="importData(false)">Import Stats from Clipboard</Button>
+                            <input id="importPaste" onchange="importData(this.value)" placeholder="OR paste here (firefox)" type="text">
+                        <!--- <Button class="controllerButtonImport" onclick="importData(true)">Import Stats from Cookies (TODO)</Button> --->
+                            <div class="row no-gutters">
+                                <div class="col-auto alignLabelVert">
+                                    <label><Strong>Skills&nbsp</Strong></label>
+                                </div>
+                                <div class="col">
+                                    <button id="loadSkills" onclick="loadSkillsFrom(playerSkills)" class="controllerButtonImport">Load Skills</button>
+                                </div>
+                                
                             </div>
-                            <div class="col">
-                                <button id="loadSkills" onclick="refreshSkills()" class="controllerButtonImport">Recalc</button>
+                            <div id="Skills">
+                                
                             </div>
                         </div>
-                        <div id="Probabilities">
-                            
+                        <div class="col importCol col-gutters">
+                            <div><Strong>Equipment Sets</Strong>
+                            <div id="EquipmentSets">
+                                
+                            </div>
+                        </div> 
                         </div>
-                    </div>
-                    <div class="col col-gutters">
-                        <div id="Passives">
-                            Passives
+                        <div class="col importCol col-gutters">
+                            <div class="row no-gutters">
+                                <div class="col-auto alignLabelVert">
+                                    <label><Strong>Statistics&nbsp</Strong></label>
+                                </div>
+                                <div class="col">
+                                    <button id="loadSkills" onclick="refreshSkills()" class="controllerButtonImport">Recalc</button>
+                                </div>
+                            </div>
+                            <div id="Probabilities">
+                                
+                            </div>
                         </div>
-                    </div>
-                    <div class="col col-gutters">                    
-                        <div id="PlayerStatistics">
-                            Player Stats
+                        <div class="col importCol col-gutters">
+                            <div id="Passives">
+                                <Strong>Passives</Strong>
+                            </div>
+                        </div>
+                        <div class="col importCol col-gutters">                    
+                            <div id="PlayerStatistics">
+                            <Strong>Player Stats</Strong>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="sheet" id="artifactOptimizer">
+            <div class="row no-gutters">
+                <div class="col-12 no-gutters">
+                <div class="row relics">
+                    <div class="col-3 pr-0">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">Relics Available:</div>
+                            <div class="col-md-6 col-sm-12"><input onchange="availableRelicsUpdated(this)" id="relicsAvailable" type="number"></div>
+                        </div>
+                    </div>
+                    <div class="col-3 pl-1 pr-0">
+                        <div class="row">
+                         <div class="col-md-6 col-sm-12">Relics Spent:</div>
+                         <div class="col-md-6 col-sm-12"><input id="relicsSpent" disabled type="number" value="112341231231"></div>   
+                        </div>
+                    </div>
+                    <div class="col-6 pl-1">
+                        
+                        <div class="row">
+                           <div class="col-6 pr-0"><button class="controllerButtonImport" onclick="artifactImport(false)">Import Clipboard</button></div>
+                        <div class="col-6 pl-1"><input id="artifactPasteImport" type="text" onchange="artifactImport(this.value)"  placeholder="OR Paste Export Here"/></div> 
+                        </div>
+                        <div class="row no-gutters">
+                            <select onchange="updateUpgradeButton(this.value)" style="text-align: center" class="artifactButton">
+                                <option style="text-align: center" value="1">Spend 1%</option>
+                                <option selected="selected" value="5">Spend 5%</option>
+                                <option value="10">Spend 10%</option>
+                            </select>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="col-3">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="artifactHolder" class="col-md-6 col-sm-12">
 
+            </div>
+            <div id="aritactSuggestions" class="col-md-6 col-sm-12">
+
+            </div>
+        </div>    
+        </div>
     </body>
     <script>
+        function toggleTab(button){
+            var items = document.getElementsByClassName("sheetNavigationButton");
+            Array.prototype.forEach.call(items, function(el) {
+                el.classList.remove('active');
+            });
+            button.classList.add("active");
+            var sheets = document.getElementsByClassName("sheet");
+            Array.prototype.forEach.call(sheets, function(el) {
+                el.classList.remove('active');
+                el.style.display = "none";
+            });
+            switch(button.id){
+                case "sp":
+                    spOptimizer.style.display = "block";
+                    break;
+                case "artifact":
+                    artifactOptimizer.style.display = "block";
+                    break;
+                default: spOptimizer.style.display = "block";
+            }
+            button.classList.add("active");
+        }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+            .register('./sw.js')
+            .then((reg) => { console.log('Service Worker Registered', reg); })
+            .catch((error) => { console.log('Service Worker Failed.', error)})
+        }
         var TreeIDTagByClass = Object.freeze({
             Knight: "knightTree",
             Warlord: "warlordTree",
             Sorcerer: "sorcererTree",
-            Rogue: "rogueTree"
+            Rogue: "rogueTree",
+            Pet: "petTree"
         });
         var SPJsonArray = [];
         var knightArray = [];
         var warlordArray = [];
         var sorcererArray = [];
+        var petArray = [];
         var rogueArray = [];
         var SPreductions = {};
         var Goldreductions = {};
-        const Gold = Object.freeze({pHoM: "pHoM", Chesterson: "Chesterson", HoM: "HoM", All: "All", ChestersonChance: "ChestersonChance", Fairy: "Fairy", Boss: "Boss", MultiSpawn: "MultiSpawn", Stealth: "Stealth", Inactive:"Inactive"});
-        const Types = Object.freeze({tap:"xTap/FS", hero:"xHero/WC", companion: "xCompanion", all:"xAll", ds:"xDS", sad:"xSAD", crit:"xCrit", critMult:"+Crit%", pet:"xPet", sc:"xSC", dagger: "xDagger", hs:"xHS", ship:"xSHIP", Gold, rogueDS: "t4RogueDS", dimshift: "xDimShift", utility: "xUtility"
+        const Gold = Object.freeze({pHoM: "pHoM", Rogue: "Rogue", Chesterson: "Chesterson", HoM: "HoM", All: "All", ChestersonChance: "ChestersonChance", Fairy: "Fairy", Boss: "Boss", MultiSpawn: "MultiSpawn", Stealth: "Stealth", Inactive:"Inactive"});
+        const Types = Object.freeze({ranged: "xRanged", mage: "xMage", melee: "xMelee", flying: "xFlying", ground: "xGround", chivOrder: "xChivOrder", summoner: "xSummoner", tap:"xTap/FS", hero:"xHero/WC", companion: "xCompanion", all:"xAll", ds:"xDS", sad:"xSAD", crit:"xCrit", critMult:"+Crit%", pet:"xPet", sc:"xSC", dagger: "xDagger", 
+        hs:"xHS", ship:"xSHIP", Gold, rogueDS: "t4RogueDS", dimshift: "xDimShift", utility: "xUtility", hos: "xHos", appollo: "xAppollo", calisto: "xCalisto", helmet: "xHelmet", exotic: "xExotic", warlord: "xWarlord", knight: "xKnight", sorcerer: "xSorc"
+        , rogue: "xRogue", fundamental: "xFundamental", sotv: "xSotV", fots: "xFotS", spiritsvigil: "xSpiritsVigil", titanslayer: "xTitanSlayer", weaponExpert: "xWeaponExpert", fotk: "xFotK", cobalt: "xTCP"
         });
+        //xTap/FS,  xHero/WC,  xDS,  xSAD,  xCrit, +Crit%, xPet, xSC, xHS, xSHIP, xAll, xDagger, xUtility, 
+        //t4RogueDS, xDimShift, xCompanion, xHos, xAppollo, xCalisto, xHelmet, xExotic, xWarlord, xKnight, xSorc, xRogue, xFundamental, xSoTV, xFotS, xSpiritsVigil, xTitanSlayer, xWeaponExpert, xFotK
         const BuildDamageOptions = Object.freeze({Hero: "Hero", Tap: "Tap", Pet: "Pet", SC: "SC", HS: "HS", Ship: "Ship"});
         const BuildGoldOptions = Object.freeze({all: "All", phom: "Boss", fairy: "Fairy", chesterson: "Chesterson", inactive: "Inactive"});
-        const SpecialEffieciencies = Object.freeze(["Chivalric Order", "Cleaving Strike", "Volcanic Supremacy", "Tactical Insight", "Searing Light", "Astral Awakening", "Command Supremacy", "Midas Ultimate", 
-                                                    "Warcry", "Lightning Strike", "Phantom Vengeance", "Dimensional Shift", "Divine Surpremacy", "Phantom Supremacy", "Stroke Of Luck", "Anchoring Shot", "Forbidden Contract", "Dagger Storm", "Deadly Focus", "Barbaric Fury", "Flash Zip"]);
+        const SpecialEffieciencies = Object.freeze(["Cleaving Strike", "Volcanic Eruption", "Tactical Insight", "Searing Light", "Astral Awakening", "Command Supremacy", 
+                                                    "Warcry", "Lightning Strike", "Burning Passion", "Phantom Vengeance", "Divine Wrath", "Phantom Control", "Stroke Of Luck", "Dagger Storm", "Deadly Focus", "Barbaric Fury"]);
         var typeConversions = {
             ActiveAllHelperDamage: Types.hero,
+            TapDamageFromHelpersMult: Types.chivOrder,
+            BurstDamageSkillManaMult: Types.utility,
+            FairyGold: Types.Gold.Fairy,
+            EquipmentPetEffect: Types.calisto,
+            PetBonusBoost: Types.summoner,
+            DualPetAmount: Types.pet,
+            DualPetSkillStacksBonus: Types.pet,
+            MultiMonstersGold: Types.Gold.MultiSpawn,
             ActiveTapDamage: Types.tap,
             AllHelperDamage: Types.hero,
             BurstDamageSkillAmount: Types.hs,
@@ -256,11 +395,405 @@
             lightningStrikePercent: 2.0,
             lightningStrikeAttempts: 100,
         }
+        var sampleArtifacts = {
+    "Book of Shadows": {
+        "enchanted": "True",
+        "level": "1.240E+52"
+    },
+    "Charged Card": {
+        "enchanted": "True",
+        "level": "2.100E+64"
+    },
+    "Stone of the Valrunes": {
+        "enchanted": "True",
+        "level": "2.100E+64"
+    },
+    "Chest of Contentment": {
+        "enchanted": "True",
+        "level": "9.000E+62"
+    },
+    "Heroic Shield": {
+        "enchanted": "True",
+        "level": "2.100E+64"
+    },
+    "Book of Prophecy": {
+        "enchanted": "True",
+        "level": "2.080E+56"
+    },
+    "Khrysos Bowl": {
+        "enchanted": "False",
+        "level": "2.000E+64"
+    },
+    "Zakynthos Coin": {
+        "enchanted": "False",
+        "level": "1.600E+63"
+    },
+    "Great Fay Medallion": {
+        "enchanted": "True",
+        "level": "1.400E+63"
+    },
+    "Neko Sculpture": {
+        "enchanted": "True",
+        "level": "2.000E+64"
+    },
+    "Coins of Ebizu": {
+        "enchanted": "True",
+        "level": "1.600E+63"
+    },
+    "The Bronzed Compass": {
+        "enchanted": "False",
+        "level": "2.000E+64"
+    },
+    "Evergrowing Stack": {
+        "enchanted": "True",
+        "level": "2.000E+56"
+    },
+    "Flute of the Soloist": {
+        "enchanted": "True",
+        "level": "2.140E+56"
+    },
+    "Heavenly Sword": {
+        "enchanted": "True",
+        "level": "1.881E+56"
+    },
+    "Divine Retribution": {
+        "enchanted": "True",
+        "level": "9.390E+59"
+    },
+    "Drunken Hammer": {
+        "enchanted": "True",
+        "level": "1.000E+66"
+    },
+    "Samosek Sword": {
+        "enchanted": "False",
+        "level": "7.000E+58"
+    },
+    "The Retaliator": {
+        "enchanted": "True",
+        "level": "4.270E+66"
+    },
+    "Stryfe's Peace": {
+        "enchanted": "False",
+        "level": "8.000E+59"
+    },
+    "Hero's Blade": {
+        "enchanted": "False",
+        "level": "4.280E+66"
+    },
+    "The Sword of Storms": {
+        "enchanted": "True",
+        "level": "4.000E+66"
+    },
+    "Furies Bow": {
+        "enchanted": "True",
+        "level": "1.000E+66"
+    },
+    "Charm of the Ancient": {
+        "enchanted": "True",
+        "level": "4.000E+66"
+    },
+    "Tiny Titan Tree": {
+        "enchanted": "False",
+        "level": "4.250E+66"
+    },
+    "Helm of Hermes": {
+        "enchanted": "False",
+        "level": "5.000E+65"
+    },
+    "Fruit of Eden": {
+        "enchanted": "False",
+        "level": "8.000E+58"
+    },
+    "Influential Elixir": {
+        "enchanted": "False",
+        "level": "3.300E+66"
+    },
+    "Shimmering Oil": {
+        "enchanted": "False",
+        "level": "3.000E+65"
+    },
+    "O'Ryan's Charm": {
+        "enchanted": "False",
+        "level": "1.780E+64"
+    },
+    "Heart of Storms": {
+        "enchanted": "False",
+        "level": "2.120E+56"
+    },
+    "Apollo Orb": {
+        "enchanted": "False",
+        "level": "1.650E+56"
+    },
+    "Sticky Fruit": {
+        "enchanted": "False",
+        "level": "1.650E+56"
+    },
+    "Hades Orb": {
+        "enchanted": "False",
+        "level": "1.560E+56"
+    },
+    "Earrings of Portara": {
+        "enchanted": "True",
+        "level": "3.500E+66"
+    },
+    "Avian Feather": {
+        "enchanted": "True",
+        "level": "3.300E+66"
+    },
+    "Corrupted Rune Heart": {
+        "enchanted": "False",
+        "level": "2.000E+66"
+    },
+    "Durendal Sword": {
+        "enchanted": "True",
+        "level": "4.000E+59"
+    },
+    "Helheim Skull": {
+        "enchanted": "True",
+        "level": "7.900E+59"
+    },
+    "Oath's Burden": {
+        "enchanted": "False",
+        "level": "7.000E+51"
+    },
+    "Crown of the Constellation": {
+        "enchanted": "True",
+        "level": "1.600E+56"
+    },
+    "Titania's Sceptre": {
+        "enchanted": "True",
+        "level": "1.100E+56"
+    },
+    "Fagin's Grip": {
+        "enchanted": "True",
+        "level": "1.100E+56"
+    },
+    "Ring of Calisto": {
+        "enchanted": "True",
+        "level": "1.700E+56"
+    },
+    "Blade of Damocles": {
+        "enchanted": "False",
+        "level": "8.700E+59"
+    },
+    "Helmet of Madness": {
+        "enchanted": "False",
+        "level": "8.800E+59"
+    },
+    "Titanium Plating": {
+        "enchanted": "False",
+        "level": "8.800E+59"
+    },
+    "Moonlight Bracelet": {
+        "enchanted": "False",
+        "level": "8.000E+59"
+    },
+    "Amethyst Staff": {
+        "enchanted": "False",
+        "level": "8.000E+59"
+    },
+    "Sword of the Royals": {
+        "enchanted": "True",
+        "level": "1.500E+56"
+    },
+    "Spearit's Vigil": {
+        "enchanted": "True",
+        "level": "1.400E+56"
+    },
+    "The Cobalt Plate": {
+        "enchanted": "True",
+        "level": "1.500E+56"
+    },
+    "Sigils of Judgement": {
+        "enchanted": "True",
+        "level": "1.500E+56"
+    },
+    "Foliage of the Keeper": {
+        "enchanted": "True",
+        "level": "1.500E+56"
+    },
+    "Invader's Gjallarhorn": {
+        "enchanted": "True",
+        "level": "1.800E+64"
+    },
+    "Titan's Mask": {
+        "enchanted": "False",
+        "level": "2.000E+65"
+    },
+    "Royal Toxin": {
+        "enchanted": "False",
+        "level": "3.000E+66"
+    },
+    "Laborer's Pendant": {
+        "enchanted": "False",
+        "level": "3.000E+66"
+    },
+    "Bringer of Ragnarok": {
+        "enchanted": "False",
+        "level": "3.000E+64"
+    },
+    "Parchment of Foresight": {
+        "enchanted": "False",
+        "level": "3.000E+66"
+    },
+    "Elixir of Eden": {
+        "enchanted": "True",
+        "level": "2.000E+65"
+    },
+    "Hourglass of the Impatient": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Phantom Timepiece": {
+        "enchanted": "False",
+        "level": "3.000E+1"
+    },
+    "Forbidden Scroll": {
+        "enchanted": "False",
+        "level": "3.000E+1"
+    },
+    "Ring of Fealty": {
+        "enchanted": "False",
+        "level": "3.000E+1"
+    },
+    "Glacial Axe": {
+        "enchanted": "False",
+        "level": "3.000E+1"
+    },
+    "Aegis": {
+        "enchanted": "False",
+        "level": "3.000E+1"
+    },
+    "Swamp Gauntlet": {
+        "enchanted": "False",
+        "level": "3.000E+1"
+    },
+    "Infinity Pendulum": {
+        "enchanted": "False",
+        "level": "2.000E+1"
+    },
+    "Glove of Kuma": {
+        "enchanted": "False",
+        "level": "3.000E+1"
+    },
+    "Titan Spear": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Oak Staff": {
+        "enchanted": "False",
+        "level": "3.000E+1"
+    },
+    "The Arcana Cloak": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Hunter's Ointment": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Ambrosia Elixir": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Mystic Staff": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Mystical Beans of Senzu": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Egg of Fortune": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Divine Chalice": {
+        "enchanted": "False",
+        "level": "5.000E+1"
+    },
+    "Invader's Shield": {
+        "enchanted": "False",
+        "level": "5.000E+1"
+    },
+    "Axe of Muerte": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Essence of the Kitsune": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Boots of Hermes": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Unbound Gauntlet": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Oberon Pendant": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Lucky Foot of Al-mi'raj": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Lost King's Mask": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Staff of Radiance": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Morgelai Sword": {
+        "enchanted": "False",
+        "level": "5.000E+1"
+    },
+    "Ringing Stone": {
+        "enchanted": "False",
+        "level": "5.000E+1"
+    },
+    "Quill of Scrolls": {
+        "enchanted": "False",
+        "level": "5.000E+1"
+    },
+    "Old King's Stamp": {
+        "enchanted": "False",
+        "level": "5.000E+1"
+    },
+    "The Master's Sword": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "The Magnifier": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "The Treasure of Fergus": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "The White Dwarf": {
+        "enchanted": "False",
+        "level": "5.000E+1"
+    },
+    "Aram Spear": {
+        "enchanted": "False",
+        "level": "4.000E+1"
+    },
+    "Ward of the Darkness": {
+        "enchanted": "False",
+        "level": "6.000E+1"
+    }
+};
         var playerProfileStats = {};
         var playerSkills = {};
         var playerArtifacts = {};
         var playerPassives = {}
-        var importedData = [];
+        var importedStats = [];
         var treeSp = {
             Knight : 0,
             Warlord : 0,
@@ -277,18 +810,27 @@
         var rankingBoxRankTemplate;
         var rankingBoxNameTemplate;
         var rankingBoxValueTemplate;
+        var rankingBoxRowPet;
         var rankingBoxRowKnight;
         var rankingBoxRowWarlord;
         var rankingBoxRowSorcerer;
         var rankingBoxRowRogue;
-        async function importData(fromCookie){
-            if(!fromCookie){
-            const text = await navigator.clipboard.readText();
-            //console.log(text);
-            importedStats = JSON.parse(text);
+        async function importData(data){
+            // const perm = { origins: [ `https://${$select.val()}/` ] };
+            // browser.permissions.request(perm)
+            //     .then(granted => {
+            //         if (granted)
+            //             someFunction();
+            //         else $select.val(oldValue);
+            //     });
+            var text;
+            console.log(data)
+            if(!data){
+                text = await navigator.clipboard.readText();
+                importedStats = JSON.parse(text);
             } else {
-                importedStats = read_cookie("import-data");
-                console.log(document.cookie);
+                importPaste.value = "";
+                importedStats = JSON.parse(data);
             }
         
 
@@ -301,7 +843,7 @@
                 Passives.appendChild(newItem);
                 playerPassives[key] = value;
             });
-            console.log(playerPassives);
+            //console.log(playerPassives);
 
             for (var entry in playerSkills) delete playerSkills[entry];
             Skills.innerHTML = "";
@@ -313,14 +855,14 @@
                 playerSkills[key] = value;
             });
             document.getElementById('loadSkills').style.visibility = "visible";
-            console.log(playerSkills);
+            //console.log(playerSkills);
 
             for (var entry in playerArtifacts) delete playerArtifacts[entry];
             var artifacts = importedStats.artifacts;
             Object.entries(artifacts).forEach(([key, value]) => {
                 playerArtifacts[key] = value;
             });
-            console.log(playerArtifacts);
+            //console.log(playerArtifacts);
 
             var stats = importedStats.playerStats;
             PlayerStatistics.innerHTML = "<Strong>Player Stats</Strong>";
@@ -330,7 +872,7 @@
                 PlayerStatistics.appendChild(newItem);
                 playerProfileStats[key] = value;
             });
-            console.log(playerProfileStats);
+            //console.log(playerProfileStats);
             document.getElementById('startingSp').value = playerProfileStats["Skill Points Owned"];
             updateStartingSp(document.getElementById('startingSp'));
 
@@ -344,13 +886,14 @@
                 EquipmentSets.appendChild(newItem);
                 playerSets[value] = true;
             });
-            console.log(playerSets);
+            //console.log(playerSets);
             (function(){
             var myObject = JSON.parse('{"id":1,"gender":"male"}');
             var e = 'Thu Nov 26 2017 15:44:38'; document.cookie = 'myObj='+ JSON.stringify(myObject) +';expires=' + e;
             })()
             bake_cookie("import-data", "test");
         }
+
         function bake_cookie(name, value) {
             var cookie = [name, '=', JSON.stringify(value), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
             document.cookie = cookie;
@@ -407,25 +950,27 @@
                         processGoldReductions(data);
                         $.ajax({
                         type: "GET",
-                        url: "https://mb1zattts4.execute-api.us-east-1.amazonaws.com/dev/tt2optimizer/assets/SkillTreeInfo.csv",
+                        url: "https://mb1zattts4.execute-api.us-east-1.amazonaws.com/dev/tt2optimizer/assets/ArtifactInfo.csv",
                         dataType: "text",
                         success: function(data) {
-                            initialTreeData = data;
-                            processData();
-                        }
+                            artifactCSV = data;
+                            processArtifacts(data);
+                            $.ajax({
+                            type: "GET",
+                            url: "https://mb1zattts4.execute-api.us-east-1.amazonaws.com/dev/tt2optimizer/assets/SkillTreeInfoNew.csv",
+                            dataType: "text",
+                            success: function(data) {
+                                initialTreeData = data;
+                                processData();
+                            }
+                    });
+                    }
                     });
                     }
                      });
                 }
             });
             
-            
-        //     $.ajax({
-        //         type: "GET",
-        //         url: "./assets/HelperSkillInfo.csv",
-        //         dataType: "text",
-        //         success: function(data) {processHeroSkills(data);}
-        //     });
         });
         var initialTreeData = null;
         function effectColA(skillRow, levelIncrement){
@@ -506,8 +1051,9 @@
                     }
                 }
                 if(UpgradeAvailable){
-                    console.log("Satisfying Prereq By Leveling: ", SPJsonArray[toLevel].Name);
+                    console.log("Satisfying Prereq SP By Leveling: ", SPJsonArray[toLevel].Name);
                     //checkPrerequesites(SPJsonArray[toLevel]);
+                    checkPrerequesites(SPJsonArray[toLevel]);
                     levelSkill(SPJsonArray[toLevel], 1);
                 } else if(bestIndex < SPJsonArray.length - 1){
                     bestIndex++;
@@ -517,7 +1063,14 @@
             return true;
         };
         function checkPrerequesites(skillRow){
-            if(Number(skillRow.Slot) == 0) return;
+            if(Number(skillRow.Slot) == 0){
+                if(Number(skillRow.Level) >= 2){
+                    return true; 
+                } else { 
+                    levelSkill(prereqSkillRow, 2-Number(skillRow.Level));
+                    return true; 
+                }
+            } 
             var slot = Number(skillRow.Slot);
             var prereqslot = Math.max(0, slot - 3);
             var prereqSkillRow = findSlot(getTreeByClass(skillRow.Class), prereqslot);
@@ -557,7 +1110,7 @@
                     } 
                 }
             }
-            console.log(heroSkills);
+            //console.log(heroSkills);
         }
         function isSpecialEffiencySkill(skillName){
             if(SpecialEffieciencies.includes(skillName)) return true;
@@ -567,6 +1120,9 @@
         function hasT4plusOne(Class){
             switch(Class){
                 case "Knight":
+                    return false;
+                break;
+                case "Pet":
                     return playerSets["Ignus, the Volcanic Phoenix"];
                 break;
                 case "Warlord" : return playerSets["Ironheart, the Crackling Tiger"];
@@ -577,22 +1133,49 @@
                 break;
             }
         }
-        function CalculateSpecialEfficieny(skillName, A, Aplus, Aplusplus, B, Bplus, Bplusplus, cost, reduction, bonustype){
+        function CalculateSpecialEfficieny(skillRow, A, Aplus, Aplusplus, B, Bplus, Bplusplus, cost, reduction, bonustype){
             const homRatio = Goldreductions[SelectedGoldOption][Gold.HoM];
-            switch(skillName){
+            function getEffForMulticastSkill(){
+                var costSoFar = 0;
+                function costCol(lvl){
+                    return "Co"+lvl;
+                }
+                function effCol(lvl){
+                    return "A"+lvl;
+                }
+                function effBCol(lvl){
+                    return "B"+lvl;
+                }
+                var levelToCalc;
+                var effectLvl;
+                var effectiveLvl = skillRow.Level;
+                if(hasT4plusOne(skillRow.Class)) effectiveLvl++;
+                if(effectiveLvl < 6){
+                    levelToCalc = hasT4plusOne(skillRow.Class) ? 5 : 6;
+                    effectLvl = 6;
+                } else if(effectiveLvl < 11){
+                    levelToCalc = hasT4plusOne(skillRow.Class) ? 10 : 11;
+                    effectLvl = 11;
+                } else {
+                    return Number(Math.pow(Math.pow(((Math.pow((hasT4plusOne(skillRow.Class) ? Aplusplus : Aplus), (playerSets["Forsaken Battlemage"] ? 1 : 0) + hasT4plusOne(skillRow.Class) ? Bplusplus: Bplus))/(Math.pow((hasT4plusOne(skillRow.Class) ? Aplus : A), (playerSets["Forsaken Battlemage"] ? 1 : 0) + hasT4plusOne(skillRow.Class) ? Bplus: B))), (1/cost)), reduction));
+                }
+                for(var i = 0; i < levelToCalc; i++){
+                    costSoFar += Number(skillRow[costCol(i)]);
+                }
+                //console.log(skillRow, levelToCalc, effectLvl, effectiveLvl);
+               // console.log(skillRow[effCol(levelToCalc)],  (playerSets["Forsaken Battlemage"] ? 1 : 0) + Number(skillRow[effBCol(levelToCalc)]), costSoFar, reduction );
+                return Number(Math.pow(Math.pow(Math.pow(skillRow[effCol(effectLvl)], (playerSets["Forsaken Battlemage"] ? 1 : 0) + Number(skillRow[effBCol(effectLvl)])), (1/costSoFar)), reduction));
+            }
+            switch(skillRow.Name){
+                    case "Burning Passion": {
+                        return getEffForMulticastSkill();
+                    }
                     case "Astral Awakening":
                     if(A == 0) return Number(Math.pow(Math.pow((hasT4plusOne("Warlord") ? Math.pow(Aplusplus, 5) : Math.pow(Aplus, 5)), (1/cost)), reduction));
                         return Number(Math.pow(Math.pow((Math.pow(hasT4plusOne("Warlord") ? Aplusplus : Aplus, 5)/Math.pow(hasT4plusOne("Warlord") ? Aplus : A, 5)), (1/cost)), reduction));
-                    break; hasT4plusOne("Rogue")
-                    case "Forbidden Contract":
-                        if(A == 0) return Number(Math.pow(Math.pow((hasT4plusOne("Rogue") ? Aplusplus : Aplus), (1/cost)), reduction));
-                        return Number(Math.pow(Math.pow((hasT4plusOne("Rogue") ? Aplusplus : Aplus)/(hasT4plusOne("Rogue") ? Aplus : A), (1/cost)), reduction));
-                        break;
-                    case "Anchoring Shot":
-                        if(A == 0) return Number(Math.pow(Math.pow((hasT4plusOne("Warlord") ? Aplusplus : Aplus), (1/cost)), reduction));
-                        return Number(Math.pow(Math.pow((hasT4plusOne("Warlord") ? Aplusplus : Aplus)/(hasT4plusOne("Warlord") ? Aplus : A), (1/cost)), reduction));
-                        break;
+                    break;
                     case "Dagger Storm":
+                        return getEffForMulticastSkill();
                         if(A == 0) return Number(Math.pow(Math.pow((hasT4plusOne("Rogue") ? Aplusplus : Aplus), (1/cost)), reduction));
                         return Number(Math.pow(Math.pow(((Math.pow((hasT4plusOne("Rogue") ? Aplusplus : Aplus), (playerSets["Forsaken Battlemage"] ? 1 : 0) + hasT4plusOne("Rogue") ? Bplusplus: Bplus))/(Math.pow((hasT4plusOne("Rogue") ? Aplus : A), (playerSets["Forsaken Battlemage"] ? 1 : 0) + hasT4plusOne("Rogue") ? Bplus: B))), (1/cost)), reduction));
                         break;
@@ -601,7 +1184,8 @@
                         if(A == 0) return Number(Math.pow(Math.pow((hasT4plusOne("Rogue") ? Aplusplus*Bplusplus : Aplus*Bplus), (1/cost)), reduction));
                         return Number(Math.pow(Math.pow(((hasT4plusOne("Rogue") ? Aplusplus : Aplus) * (hasT4plusOne("Rogue") ? Bplusplus : Bplus))/((hasT4plusOne("Rogue") ? Aplus : A) * (hasT4plusOne("Rogue") ? Bplus : B)), (1/cost)), reduction));
                         break;
-                    case "Volcanic Supremacy":
+                    case "Volcanic Eruption":
+                        return getEffForMulticastSkill();
                         if(A == 0) return Number(Math.pow(Math.pow((hasT4plusOne("Knight") ? Aplusplus : Aplus), (1/cost)), reduction));
                         return Number(Math.pow(Math.pow(((Math.pow((hasT4plusOne("Knight") ? Aplusplus : Aplus), (playerSets["Forsaken Battlemage"] ? 1 : 0) + hasT4plusOne("Warlord") ? Bplusplus: Bplus))/(Math.pow((hasT4plusOne("Knight") ? Aplus : A), (playerSets["Forsaken Battlemage"] ? 1 : 0) + hasT4plusOne("Warlord") ? Bplus: B))), (1/cost)), reduction));
                     break;
@@ -610,18 +1194,20 @@
                         return Number(Math.pow(Math.pow(((hasT4plusOne("Knight") ? Aplusplus : Aplus)/(hasT4plusOne("Knight") ? Aplus : A)), (1/cost)), reduction));
                         break;
                     }
-                    case "Flash Zip":
-                        if(A == 0) return Number(Math.pow(Math.pow((hasT4plusOne("Knight") ? Aplusplus : Aplus), (1/cost)), reduction));
-                        return Number(Math.pow(Math.pow(((hasT4plusOne("Knight") ? Aplusplus : Aplus)/(hasT4plusOne("Knight") ? Aplus : A)), (1/cost)), reduction));
-                        break;
                     case "Command Supremacy":
+                        return getEffForMulticastSkill();
                         if(A == 0) return Number(Math.pow(Math.pow((hasT4plusOne("Warlord") ? Aplusplus : Aplus), (1/cost)), reduction));
                         return Number(Math.pow(Math.pow(((Math.pow((hasT4plusOne("Warlord") ? Aplusplus : Aplus), (playerSets["Forsaken Battlemage"] ? 1 : 0) + hasT4plusOne("Warlord") ? Bplusplus: Bplus))/(Math.pow((hasT4plusOne("Warlord") ? Aplus : A), (playerSets["Forsaken Battlemage"] ? 1 : 0) + hasT4plusOne("Warlord") ? Bplus : B))), (1/cost)), reduction));
                         break;
-                    case "Dimensional Shift":
+                    case "Divine Wrath":
+                        return getEffForMulticastSkill();
                         if(A == 0) return Number(Math.pow(Math.pow((hasT4plusOne("Sorcerer") ? Aplusplus : Aplus), (1/cost)), reduction));
-                        return Number(Math.pow(Math.pow(((hasT4plusOne("Sorcerer") ? Aplusplus : Aplus)/(hasT4plusOne("Sorcerer") ? Aplus : A)), (1/cost)), reduction+homRatio));
-                    break;
+                        return Number(Math.pow(Math.pow(((Math.pow((hasT4plusOne("Sorcerer") ? Aplusplus : Aplus), (playerSets["Forsaken Battlemage"] ? 1 : 0) + hasT4plusOne("Sorcerer") ? Bplusplus: Bplus))/(Math.pow((hasT4plusOne("Sorcerer") ? Aplus : A), (playerSets["Forsaken Battlemage"] ? 1 : 0) + hasT4plusOne("Sorcerer") ? Bplus : B))), (1/cost)), reduction));
+                        break;
+                    case "Phantom Control":
+                    return getEffForMulticastSkill();
+                        return Number(Math.pow(Math.pow(((Math.pow( Aplus, (playerSets["Forsaken Battlemage"] ? 1 : 0) + Bplus))/(Math.pow( A, (playerSets["Forsaken Battlemage"] ? 1 : 0) + B))), (1/cost)), reduction));
+                        break;
                     case "Lightning Strike":
                         function calculateLs(currentHealth, currentHealthReduction, staticEfficiency, strikesRemaining){
                             if(strikesRemaining <= 0) {
@@ -642,7 +1228,6 @@
                             var total = Math.pow(10, playerSets["Kor, the Whispering Wave"] ? -calculateLsStrike(Aplusplus, Bplusplus) : -calculateLsStrike(Aplus, Bplus));
                             return Number(Math.pow(Math.pow(10, isNaN(total) ? 10 : total), (1/cost)));
                         }
-
                         return Number(Math.pow(hasT4plusOne("Sorcerer") ? calculateTotalMultiplier(Aplusplus, Bplusplus, Aplus, Bplus) : calculateTotalMultiplier(Aplus, Bplus, A, B), (1/cost)));
                     break;
                     case "Tactical Insight":
@@ -681,24 +1266,15 @@
                         currLvlMult = currLvlMult * Math.pow(1+B, tapRatio);
                         return Number(Math.pow((nextLvlMult/currLvlMult), (1/cost)));
                     break;
-                    case "Chivalric Order":
-                        return Number(Math.pow(Math.pow(((Aplus + (playerSets.MastersSword ? .004 : 0) + (.0001 * (1+playerProbabilities.TiAdditivePerecent)))/(A + (playerSets.MastersSword ? .004 : 0) + (.0001 * (1+playerProbabilities.TiAdditivePerecent)))), (1/cost)), reduction));
-                    break;
                     default:
                         break;
                 }
                 if(A == 0) A = 1; //FOR SKILLS THAT DONT GET +1s - Division by 0 Error fixes
-                switch(skillName){
+                switch(skillRow.Name){
                     case "Warcry":
                         warcryHelpers = B;
                         levelSkill(SearingLight, 0);
                         return Number(Math.pow(Math.pow((Aplus/A), (1/cost)), reduction));
-                        break;
-                    case "Divine Surpremacy":
-                        return Number(Math.pow(Math.pow(((Math.pow( Aplus, (playerSets["Forsaken Battlemage"] ? 1 : 0) + Bplus))/(Math.pow( A, (playerSets["Forsaken Battlemage"] ? 1 : 0) + B))), (1/cost)), reduction));
-                        break;
-                    case "Phantom Supremacy":
-                        return Number(Math.pow(Math.pow(((Math.pow( Aplus, (playerSets["Forsaken Battlemage"] ? 1 : 0) + Bplus))/(Math.pow( A, (playerSets["Forsaken Battlemage"] ? 1 : 0) + B))), (1/cost)), reduction));
                         break;
                     case "Cleaving Strike":
                         var critExpo = SPreductions[SelectedBuildDamage][Types.critMult];
@@ -710,10 +1286,6 @@
                             return Number(Math.pow(Math.pow((1+SearingLight[effectColA(SearingLight,levelInc)]*warcryHelpers*4*30)/(SearingLight[effectColA(SearingLight,levelInc-1)]*warcryHelpers*4*30), (1/SearingLight[costCol(SearingLight, levelInc-1)])), reduction));
                         }
                         return Number(Math.pow(Math.pow((1+Aplus*warcryHelpers*4*30)/(A == 0 || A == 1 ? 1 : 1+A*warcryHelpers*4*30), (1/cost)), reduction));
-                    break;
-                    case "Midas Ultimate":
-                        const fairyRatio = Goldreductions[SelectedGoldOption][Gold.Fairy];
-                        return Number(Math.pow(Math.pow(Math.pow((Aplus/A), homRatio)*Math.pow((Bplus/B), fairyRatio), (1/cost)), reduction));
                     break;
                     case "Phantom Vengeance":
                         return Number(Math.pow(Math.pow((Aplus/A)*((4+Bplus)/(4+B)), (1/cost)), reduction));
@@ -737,18 +1309,27 @@
             const nextLvlEFfB = Number(skillRow[effectColB(skillRow, 1)]);
             const nextnextLvlEFfB = Number(skillRow[effectColB(skillRow, 2)]);
             const nextLvlCost = Number(skillRow[costCol(skillRow, 0)]);
+            
             var reductionAmt = 0;
             if(Gold.hasOwnProperty(bonustype)){
                 reductionAmt = Number(Goldreductions[SelectedGoldOption][bonustype]);
             } else {
                 reductionAmt = Number(SPreductions[SelectedBuildDamage][bonustype]);
             }
-            if(isSpecialEffiencySkill(skillRow.Name)) return CalculateSpecialEfficieny(skillRow.Name, currLvlEFfA, nextLvlEFfA, nextnextLvlEFfA, currLvlEFfB, nextLvlEFfB, nextnextLvlEFfB, nextLvlCost, reductionAmt, bonustype);
+            if(isSpecialEffiencySkill(skillRow.Name)) return CalculateSpecialEfficieny(skillRow, currLvlEFfA, nextLvlEFfA, nextnextLvlEFfA, currLvlEFfB, nextLvlEFfB, nextnextLvlEFfB, nextLvlCost, reductionAmt, bonustype);
             var eff = 0;
-            if(skillRow.Level == 0){
-                eff = Number(Math.pow(Math.pow((nextLvlEFfA), (1/nextLvlCost)), reductionAmt));
+            if(skillRow.TierNum == 4 && hasT4plusOne(skillRow.Class)){
+                if(skillRow.Level == 0){
+                    eff = Number(Math.pow(Math.pow((nextnextLvlEFfA), (1/nextLvlCost)), reductionAmt));
+                } else {
+                    eff = Number(Math.pow(Math.pow((nextnextLvlEFfA/nextLvlEFfA), (1/nextLvlCost)), reductionAmt));
+                }
             } else {
-                eff = Number(Math.pow(Math.pow((nextLvlEFfA/currLvlEFfA), (1/nextLvlCost)), reductionAmt));
+                if(skillRow.Level == 0){
+                    eff = Number(Math.pow(Math.pow((nextLvlEFfA), (1/nextLvlCost)), reductionAmt));
+                } else {
+                    eff = Number(Math.pow(Math.pow((nextLvlEFfA/currLvlEFfA), (1/nextLvlCost)), reductionAmt));
+                }
             }
             return eff;
         }
@@ -927,8 +1508,9 @@
             if(id == "rogueTree"){
                 var parrotInfo = document.createElement('div');
                 parrotInfo.className = "parrotInfo";
-                parrotInfo.innerText = "Discord: Parrot6#7225\nReddit: u/Killerparrot6\nVenmo: Parrot6"
-                document.getElementById(id).append(parrotInfo);
+                parrotInfo.style.display = "inline-block"
+                parrotInfo.innerHTML = '<a target="_blank" style="font-size: 1.2rem; line-height: 2rem;" href="https://youtu.be/y10N-2e55p4">Video Tutorial Link</a></br>Discord: Parrot6#7225</br>Reddit: u/Killerparrot6</br>Venmo: Parrot6'
+                document.getElementById('tbdTree').append(parrotInfo);
             }
             calculateTreeTotal(treeArray, id);
             function checkIfSkipSlot(){
@@ -986,6 +1568,9 @@
                 case "Rogue":
                 return rogueArray;
                 break;
+                case "Pet":
+                return petArray;
+                break;
                 default:
                     console.log("Fell off branch")
                 break;
@@ -1025,11 +1610,12 @@
                 }
             }
             
-            console.log(SPJsonArray);
+            //console.log(SPJsonArray);
             populateTree("Knight", knightArray);
             populateTree("Warlord", warlordArray);
             populateTree("Sorcerer", sorcererArray);
             populateTree("Rogue", rogueArray);
+            populateTree("Pet", petArray);
             var temp = document.createDocumentFragment();
             for(var key of Object.keys(BuildDamageOptions)){
                 var opt = document.createElement('option');
@@ -1041,6 +1627,7 @@
             document.getElementById('buildDmgType').onchange = function(e){
                     ChangeDamageType();
                     refreshSkills();
+                    processArtifacts(artifactCSV);
                 }
             var temp = document.createDocumentFragment();
             for(var key of Object.keys(BuildGoldOptions)){
@@ -1053,6 +1640,7 @@
             document.getElementById('buildGoldType').onchange = function(e){
                     ChangeGoldType();
                     refreshSkills();
+                    processArtifacts(artifactCSV);
                 }
             updateProbabilites();
             updateEquipments();
@@ -1072,6 +1660,8 @@
             rankingBoxNameTemplate.classList = "SkillRankingName";
             rankingBoxValueTemplate = document.createElement('div');
             rankingBoxValueTemplate.classList = "SkillRankingValue";
+            rankingBoxRowPet = document.createElement('div');
+            rankingBoxRowPet.classList = "skillRankingRow petToLevel";
             rankingBoxRowKnight = document.createElement('div');
             rankingBoxRowKnight.classList = "skillRankingRow KnightToLevel";
             rankingBoxRowWarlord = document.createElement('div');
@@ -1091,6 +1681,8 @@
                 return rankingBoxRowSorcerer;
                 case "Rogue":
                 return rankingBoxRowRogue;
+                case "Pet":
+                return rankingBoxRowPet;
                 default:
                     console.log("fell off switch")
                     break;
@@ -1105,6 +1697,7 @@
         function Reload(){
             $('#buildDmgType').val(SelectedBuildDamage);
             $('#buildGoldType').val(SelectedGoldOption);
+            createTree(TreeIDTagByClass.Pet, petArray);
             createTree(TreeIDTagByClass.Knight, knightArray);
             createTree(TreeIDTagByClass.Warlord, warlordArray);
             createTree(TreeIDTagByClass.Sorcerer, sorcererArray);
@@ -1137,7 +1730,7 @@
         function updateProbabilites(){
             var probsContainer = Probabilities;
             probsContainer.innerHTML = "";
-            function getNewProb(labelText, inputText, valToUpdate){
+            function getNewProb(labelText, inputText, valToUpdate, max){
                 var newProb = document.createElement('div');
                 newProb.classList = "row no-gutters";
                 var newLabel = document.createElement('div');
@@ -1152,6 +1745,7 @@
                 input.value = inputText;
                 input.type = "number";
                 input.max = "100";
+                if(max != null) input.max = max;
                 input.min = "0";
                 input.onchange = function(){
                     playerProbabilities[valToUpdate] = Number(input.value);
@@ -1160,9 +1754,9 @@
                 newProb.appendChild(newInput);
                 return newProb;
             }
-            probsContainer.appendChild(getNewProb("Time Spent:", "30", "timeSpentOnBoss"));
+            probsContainer.appendChild(getNewProb("Time Spent:", "30", "timeSpentOnBoss", 200));
             probsContainer.appendChild(getNewProb("LS %:", "2.0", "lightningStrikePercent"));
-            probsContainer.appendChild(getNewProb("LS Attempts/s:", "100.0", "lightningStrikeAttempts"));
+            probsContainer.appendChild(getNewProb("LS Attempts/s:", "200.0", "lightningStrikeAttempts", 500));
             probsContainer.appendChild(getNewProb("Crit%:", "100", "crit"));
             probsContainer.appendChild(getNewProb("Deadly%:", "100", "deadly"));
             probsContainer.appendChild(getNewProb("Spawn%:", "100", "multispawn"));
@@ -1217,6 +1811,7 @@
                 newProb.classList = "row no-gutters";
                 var newLabel = document.createElement('div');
                 newLabel.classList = "col-12 alignLabelVert";
+
                 var label = document.createElement('label');
                 label.textContent = labelText;
                 label.style.width = "100%";
@@ -1253,6 +1848,10 @@
         };
     </script>
        <!-- Optional JavaScript -->
+       
+       <script src="scripties/artifactOptimizerScript.js"></script>
+       <script src="scripties/generalScripts.js"></script>
+       <script src="scripties/bignumber.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
