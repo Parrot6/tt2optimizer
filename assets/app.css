@@ -2,6 +2,7 @@ html, body {
     height: 100%;
     margin: 0;
     line-height: 1.1 !important;
+    overflow-x: hidden;
   }
   @media (max-width: 768px) {
     html, body {
@@ -160,7 +161,7 @@ strong {
   .SkillRankingName{
       flex: 1 0 60%;
       display: inline-block;
-      padding-left: 8px;
+      padding-left: 2px;
       padding-right: 0px;
       text-overflow: ellipsis;
       overflow: hidden;
@@ -220,7 +221,10 @@ strong {
     }
     #petTree .levelButton {
       background-color: var(--petDark);
-  }
+    }
+    #alchemistTree .levelButton {
+      background-color: var(--alchemistDark);
+    }
   .levelButton:hover {
       background-color: rgb(213, 213, 213);
       color: var(--highlight);
@@ -285,6 +289,9 @@ strong {
   }
   .skillCellSorcerer {
     border: 2px solid #5bb4e8;
+  }
+  .skillCellAlchemist {
+    border: 2px solid #eef560;
   }
   .skillCellEff {
     overflow: hidden;
@@ -354,6 +361,9 @@ strong {
   .box4 { background-color: #7cc400; 
     background-image: linear-gradient(to bottom right, #201e28, #2cb975);
     }
+  .box5 { background-color: #7cc400; 
+    background-image: linear-gradient(to bottom right, #291f52, #ae60ee);
+    }
   .buildTypeSection{
     font-weight: 500;
     padding: 4px;
@@ -379,10 +389,15 @@ strong {
     background-color: #828282;
     background-image: linear-gradient(to left, #484848,#919191 );
   }
+  .AlchemistToLevel {
+    background-color: #828282;
+    background-image: linear-gradient(to left, #5f0a8a,#9f3aa9 );
+  }
   :root {
     --highlight: rgb(128, 255, 43);
     --knightDark: #575757;
     --petDark: #d03000;
+    --alchemistDark: #8211dd;
     --warlordDark: #f7c110;
     --rogueDark: #206900;
     --sorcererDark: #005b78;
@@ -417,6 +432,12 @@ strong {
     .plusOneSorcerer {
         color: var(--sorcererDark);
     }
+    .SkillRankingRank{
+      padding-left: 2px !important;
+      color: rgb(255, 255, 255);
+      font-weight: 800;
+      padding-right: 1px !important;
+  }
   @media (max-width: 500px) {
 
     .skillRankingRow {
@@ -432,7 +453,8 @@ strong {
         padding-right: 1px !important;
     }
     .SkillRankingRank{
-        display: none;
+        padding-right: 2px;
+        padding-left: 2px;
     }
     .skillCellEff {
         overflow: hidden;
@@ -502,7 +524,8 @@ strong {
        border-bottom: 4px inset #202028;
        background-color: #303030;
        padding: 4px;
-       line-height: 1.4rem;
+       line-height: 1.2rem;
+       align-items: center;
      }
      .artifactRank {
        color: gold;
@@ -542,7 +565,6 @@ strong {
        background-color: #16151a;
      }
      .relics{
-       padding: 6px;
        color: white;
        font-weight: 600;
      }
