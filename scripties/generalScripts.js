@@ -34,8 +34,16 @@ var UserList = Backbone.Router.extend({
     },
     other: function(){
         resetButtons();
+        document.getElementById('other').classList.add("active");
+        document.getElementById('otherProjects').style.display = "block";
+        document.getElementById('otherProjects').classList.add("active");
     },
  });
+function userHardReload(){
+    console.log("attempting hard reload");
+    caches.keys().then((keyList) => Promise.all(keyList.map((key) => caches.delete(key))))
+    window.location.reload(true);
+}
  function resetButtons(){
     var items = document.getElementsByClassName("sheetNavigationButton");
     Array.prototype.forEach.call(items, function(el) {
@@ -53,7 +61,46 @@ jQuery(document).ready(function() {
     // And tell Backbone to start routing
     Backbone.history.start();
   });
-
+function loadCache(){
+    var stored = localStorage['playerProbabilities'];
+    if (stored) playerProbabilities = JSON.parse(stored);
+    else playerProbabilities = {
+        goldEff: .79,
+        crit : 100,
+        deadly : 100,
+        multispawn : 100,
+        timeSpentOnBoss: 30,
+        TiAdditivePerecent: 0,
+        TiMultiplicativePerecent: 0,
+        lightningStrikePercent: 2.0,
+        lightningStrikeAttempts: 100,
+    };
+    var skills = localStorage['skillLevels'];
+    if (skills) {
+        var newlevels = JSON.parse(skills);
+        loadSkillsFrom(newlevels);
+    }
+    else playerProbabilities = {
+        goldEff: .79,
+        crit : 100,
+        deadly : 100,
+        multispawn : 100,
+        timeSpentOnBoss: 30,
+        TiAdditivePerecent: 0,
+        TiMultiplicativePerecent: 0,
+        lightningStrikePercent: 2.0,
+        lightningStrikeAttempts: 100,
+    };
+}
+function saveCache(){
+    localStorage['playerProbabilities'] = JSON.stringify(playerProbabilities);
+    var skillLevels = [];
+    $.each(SPJsonArray, function(index, value){
+        skillLevels[value["Name"]] = value["Level"];
+        console.log('My array has at position ' + index + ', this value: ' + value);
+    });
+    localStorage['skillLevels'] = JSON.stringify(skillLevels);
+}
 function addScientific(numberOne, numberTwo){
     var one = String(numberOne).toLowerCase();
     var two = String(numberTwo).toLowerCase();
@@ -87,4 +134,17 @@ function printBigScientific(number){
 function percentScientific(bigNum, smallNum){
     return divideScientific(smallNum, bigNum);
     //var total = smallNum/(bigNum + otherSpends);
+}
+function LOG(thisstring, forceprint = false){
+    if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === ""){console.log(thisstring);}
+    else if (forceprint) console.log(thisstring);
+}
+function bake_cookie(name, value) {
+    var cookie = [name, '=', JSON.stringify(value), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
+    document.cookie = cookie;
+}
+function read_cookie(name) {
+    var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
+    result && (result = JSON.parse(result[1]));
+    return result;
 }

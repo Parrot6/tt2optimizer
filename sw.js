@@ -1,30 +1,17 @@
-const staticCacheName = "tt2-optimizer-v2.5";
-const dynamicCache ="tt2-optimizer-dynamic-v2.5"
-const assets = [
-  '/',
-  '/index.html',
-  '/assets/app.css',
-  //'/a/main.css',
-  //'/assets/generalScripts.js',
-  'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
-];
+const dynamicCache = "tt2-optimizer-dynamic-v5.10.01";
 
 self.addEventListener('install', function(event){
   //console.log('service worker has been installed')  
   event.waitUntil(
-      caches.open(staticCacheName).then(function(cache) {
-        return cache.addAll(assets);
-      })
+      caches.open(dynamicCache)
     );
   });
   
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(keys.filter(key => key !== staticCacheName && key !== dynamicCache).map(key => caches.delete(key)));
-    })
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then((keyList) => Promise.all(keyList.map((key) => {if(key !== dynamicCache)caches.delete(key)})))
   )
-})
+});
 
 self.addEventListener('fetch', (e) => {
   //checkVersion(e);

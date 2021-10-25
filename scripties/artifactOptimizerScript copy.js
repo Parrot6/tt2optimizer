@@ -126,12 +126,7 @@ var artifactTypeConversions = {
   UnskilledGold: Types.Gold.UnskilledGold,
   WarlordBonusBoost: Types.hero,
   UltraDaggerDamage: Types.dagger,
-  GoldGunDamage: Types.goldGun,
-  TwilightBoost: Types.twilight,
-  ShadowCloneSkillSpecialDamage: Types.sc,
-  StreamOfBladesSkillAmount: Types.dagger,
-  CannonDamage: Types.goldGun,
-  DualPetAmount: Types.pet
+  GoldGunDamage: Types.goldGun
 }
 var artifactCSV;
 async function artifactImport(pastedIn){
@@ -144,11 +139,11 @@ async function artifactImport(pastedIn){
         text = await navigator.clipboard.readText();
       }
       importedStats = JSON.parse(text);
-      console.log(importedStats);
+
       sampleArtifacts = importedStats.artifacts;
       $.ajax({
                   type: "GET",
-                  url: activeArtifactCsv,
+                  url: "https://mb1zattts4.execute-api.us-east-1.amazonaws.com/dev/tt2optimizer/assets/ArtifactInfo9-15-21.csv",
                   dataType: "text",
                   success: function(data) {
                       artifactCSV = data;
@@ -172,20 +167,20 @@ function artifactViewToggle(){
 function processArtifacts(data){
     allText = data;
     var allTextLines = allText.split(/\r\n|\n/);
-    
     var headings = allTextLines[0].split(',');
     ArtifactJsonArray = [];
     var headings = headings.splice(0,headings.length);
-    console.log("ARTIFACT LENGTH" + allTextLines.length);
+
     for (var i = 1; i < allTextLines.length; i++ ) {
         var tarr = {};
         var currentLine = allTextLines[i].match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
-        
+        LOG(currentLine)
         for (var j=0; j<headings.length; j++) {
             if(currentLine[j]) tarr[headings[j].trim()] = currentLine[j].trim();
         }
-        console.log(tarr);
+
         var namestr = tarr['Name'] !== "Lucky Foot of Al-Mi-Raj" ? tarr['Name'] : "Lucky Foot of Al-mi'raj";
+        LOG(tarr['Name'] + "-" + tarr['BonusType'] + ">" + artifactTypeConversions[tarr['BonusType']]);
         tarr['BonusType'] = artifactTypeConversions[tarr['BonusType']];
         tarr["Level"] = sampleArtifacts[namestr]["level"] || 0;
         tarr["Enchanted"] = sampleArtifacts[namestr]["enchanted"] || "False";
@@ -193,14 +188,15 @@ function processArtifacts(data){
         tarr['Imported'] = JSON.stringify(tarr);
         ArtifactJsonArray[tarr['Name']]  = tarr;
     }
+    LOG(artifactTypeConversions);
     sumAD = 0;
-    sumSpentRelics = 0;
+    sumSpentRelics = "0e0";
     Object.keys(ArtifactJsonArray).forEach(function(k){
         calculateArtifactPreEfficiencies(ArtifactJsonArray[k]);
         sumAD += ArtifactJsonArray[k]['ArtifactDamage'];
-        sumSpentRelics = sumSpentRelics + Number(ArtifactJsonArray[k]['CummulativeCost']);
+        sumSpentRelics = addScientific(sumSpentRelics, ArtifactJsonArray[k]['CummulativeCost']);
     });
-    LOG(sumSpentRelics)
+
     artifactsOwned = 0;
     Object.keys(ArtifactJsonArray).forEach(function(k){
         ArtifactJsonArray[k]['Level'] > 0 ? artifactsOwned++ : null;
@@ -209,8 +205,7 @@ function processArtifacts(data){
     });
 
     sumDiscoverCosts = discoverCosts.slice(0, artifactsOwned).reduce((a,b)=>a+b,0);
-    sumSpentRelics = sumSpentRelics + sumDiscoverCosts;
-    LOG(sumSpentRelics)
+    sumSpentRelics = addScientific(sumSpentRelics, sumDiscoverCosts);
     Object.keys(ArtifactJsonArray).forEach(function(k){
         calculateArtifactRanksAndPercentSpent(ArtifactJsonArray[k]);
         ArtifactJsonArray[k].Imported = JSON.stringify(ArtifactJsonArray[k]);
@@ -310,7 +305,7 @@ function calculateArtifactRanksAndPercentSpent(artiRow){
     }); 
 
     artiRow['Rank'] = rank;
-    artiRow['PercentSpent'] = Number(artiRow['CummulativeCost'])/sumSpentRelics;
+    artiRow['PercentSpent'] = percentScientific(sumSpentRelics, artiRow['CummulativeCost']);
 }
 
 function upgradeNext(thisRow){
@@ -436,9 +431,7 @@ views.Artifact = Backbone.View.extend({
     jQuery(this.el).append(jQuery('<div class="col-3 artifactLevel text-center">' + this.model.get('Level') + '</div>'));
     var percent = (Number(this.model.get('PercentSpent'))*100).toFixed(1);
     isNaN(percent) ? percent = 0 : null;
-    jQuery(this.el).append(jQuery('<div class="col artifactName">'
-    + '<img src="' + artifactImageUrls[this.model.get('Name')] + '" style="height:30px;">&nbsp'
-    + this.model.get('Name') +" (" + percent + "%)" + '</div>'));
+    jQuery(this.el).append(jQuery('<div class="col artifactName">' + this.model.get('Name') +" (" + percent + "%)" + '</div>'));
     //jQuery(this.el).append(jQuery('<div class="col-3 artifactLevel">' + this.model.get('Efficiency') + '</div>'));
     //jQuery(this.el).append(jQuery('<button class="col artifactButton 5perc">' + '5%' + '</button>'));CummulativeCost
      var enchantedString = String(this.model.get('Enchanted')).toLowerCase() == "true" ? "[E]" : "&nbsp";
@@ -493,20 +486,18 @@ views.Artifacts = Backbone.View.extend({
     });
     document.getElementById('relicsSpent').value = printBigScientific(sumSpentRelics);
     if(importedStats.playerStats){
-      LOG(Number(importedStats.playerStats['Lifetime Relics'])-sumSpentRelics);
-      relicsAvailableString = printBigScientific(Number(importedStats.playerStats['Lifetime Relics']) - sumSpentRelics);
+      relicsAvailableString = printBigScientific(addScientific(importedStats.playerStats['Lifetime Relics'], "-"+sumSpentRelics));
+      relicsAvailableString = divideScientific(relicsAvailableString, "-1e2");
       document.getElementById('relicsAvailable').value = relicsAvailableString;
     } else  document.getElementById('relicsAvailable').value = "0";
 
-    var artis = artifactsOwned >= totalArtifactsThatExist ? totalArtifactsThatExist : artifactsOwned;
-    var enchants = artifactsOwned >= totalArtifactsThatExist ? (artifactsOwned%totalArtifactsThatExist) : 0;
-    document.getElementById('artifactsDiscovered').innerText = "Artifacts: " + artis + "/"+totalArtifactsThatExist;
-    document.getElementById('enchantmentsDiscovered').innerText = "Enchantments: " + enchants + "/" + totalEnchantsThatExist;
+    var artis = artifactsOwned >= 99 ? 99 : artifactsOwned;
+    var enchants = artifactsOwned >= 99 ? (artifactsOwned%99) : 0;
+    document.getElementById('artifactsDiscovered').innerText = "Artifacts: " + artis + "/99";
+    document.getElementById('enchantmentsDiscovered').innerText = "Enchantments: " + enchants + "/38";
     return this;
   }
 });
-var totalArtifactsThatExist = 103;
-var totalEnchantsThatExist = 40;
 views.ArtifactToLevel = Backbone.View.extend({
   // Each person will be shown as a table row
   tagName: 'div',
@@ -522,7 +513,7 @@ views.ArtifactToLevel = Backbone.View.extend({
     // Clear existing row data if needed
     jQuery(this.el).empty();
     // Write the table columns
-    jQuery(this.el).append(jQuery('<div class="col artifactName">' + '<img src="' + artifactImageUrls[this.model.get('skill')] + '" style="height:30px;">&nbsp'+ this.model.get('skill') + '</div>'));
+    jQuery(this.el).append(jQuery('<div class="col artifactName">' + this.model.get('skill') + '</div>'));
     var percent = (Number(this.model.get('ammount'))*100).toFixed(0);
     isNaN(percent) ? percent = 0 : null;
     jQuery(this.el).append(jQuery('<div class="col-2 text-center"><button class="artifactButton 5perc text-center">' + percent + "%" + '</button></div>'));
