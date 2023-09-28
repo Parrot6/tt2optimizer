@@ -40,7 +40,7 @@ var artifactTypeConversions = {
   AllUpgradeCost: Types.utility,
   ArmorBoost: Types.Gold.All,
   AuraBoost: Types.all,
-  BoostedSwordAttackDamage: Types.sad,
+  BoostedSwordAttackDamage: Types.titanslayer,
   BossDamage: Types.all,
   BossTimerDuration: Types.utility,
   BurstDamageSkillAmount: Types.hs,

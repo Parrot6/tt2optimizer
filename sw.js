@@ -1,4 +1,4 @@
-const dynamicCache = "tt2-optimizer-dynamic-v5.10.01";
+const dynamicCache = "tt2-optimizer-dynamic-v5.10.04";
 
 self.addEventListener('install', function(event){
   //console.log('service worker has been installed')  

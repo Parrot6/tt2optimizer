@@ -3,7 +3,7 @@ const BuildGoldOptions = Object.freeze({all: "All", phom: "Boss", fairy: "Fairy"
 const SpecialEffieciencies = Object.freeze(["Midas Overflow", "Cleaving Strike", "Volcanic Eruption", "Tactical Insight", "Searing Light", "Astral Awakening", "Command Supremacy", 
                                             "Warcry", "Lightning Strike", "Burning Passion", "Phantom Vengeance", "Divine Wrath", "Phantom Control", "Stroke of Luck", "Deadly Focus", "Barbaric Fury", "Mark of Death", "Voltaic Sails"]);
 const Gold = Object.freeze({UnskilledGold: "UnskilledGold", pHoM: "pHoM", Rogue: "Rogue", Chesterson: "Chesterson", HoM: "HoM", All: "All", ChestersonChance: "ChestersonChance", Fairy: "Fairy", Boss: "Boss", MultiSpawn: "MultiSpawn", Stealth: "Stealth", Inactive:"Inactive"});
-const Types = Object.freeze({twilight: "xTwilight", alchemist: "xAlchemist", goldGun: "xGoldGun", ranged: "xRanged", mage: "xMage", melee: "xMelee", flying: "xFlying", ground: "xGround", chivOrder: "xChivOrder", summoner: "xSummoner", tap:"xTap/FS", hero:"xHero/WC", companion: "xCompanion", all:"xAll", ds:"xDS", sad:"xSAD", crit:"xCrit", critMult:"+Crit%", pet:"xPet", sc:"xSC", dagger: "xDagger", 
+const Types = Object.freeze({cannonDamage: "xCannonDamage", twilight: "xTwilight", alchemist: "xAlchemist", goldGun: "xGoldGun", ranged: "xRanged", mage: "xMage", melee: "xMelee", flying: "xFlying", ground: "xGround", chivOrder: "xChivOrder", summoner: "xSummoner", tap:"xTap/FS", hero:"xHero/WC", companion: "xCompanion", all:"xAll", ds:"xDS", sad:"xSAD", crit:"xCrit", critMult:"+Crit%", pet:"xPet", sc:"xSC", dagger: "xDagger", 
 hs:"xHS", ship:"xSHIP", Gold, rogueDS: "t4RogueDS", dimshift: "xDimShift", utility: "xUtility", manaUtil: "xUtilityPlus", hos: "xHos", appollo: "xAppollo", calisto: "xCalisto", helmet: "xHelmet", exotic: "xExotic", warlord: "xWarlord", knight: "xKnight", sorcerer: "xSorc"
 , rogue: "xRogue", fundamental: "xFundamental", sotv: "xSotV", fots: "xFotS", spiritsvigil: "xSpiritsVigil", titanslayer: "xTitanSlayer", weaponExpert: "xWeaponExpert", fotk: "xFotK", cobalt: "xTCP"
 });
@@ -432,12 +432,12 @@ var playerProbabilities = {
     lightningStrikeAttempts: 100,
 }
 var playerSets = {
-    MastersSword: true,
     "Forsaken Battlemage": true,
     "Ignus, the Volcanic Phoenix": true,
     "Ironheart, the Crackling Tiger": true,
     "Kor, the Whispering Wave": true,
     "Styxsis, the Single Touch": true,
+    "Shae, the Radiant Beacon": true
 }
 const heroSkillsCalced = {
     AllDamage: 37,
@@ -646,5 +646,5 @@ var artifactImageUrls = {
     "Twin Bracers": "https://i.imgur.com/jsAgcOf.png",
     "Golden Scope": "https://i.imgur.com/LIYxCds.png"
 };
-const activeSpCsv = "https://mb1zattts4.execute-api.us-east-1.amazonaws.com/dev/tt2optimizer/assets/SkillTreeInfo10-21-21.csv";
-const activeArtifactCsv = "https://mb1zattts4.execute-api.us-east-1.amazonaws.com/dev/tt2optimizer/assets/ArtifactInfo10-21-21.csv";
+const activeSpCsv = "https://mb1zattts4.execute-api.us-east-1.amazonaws.com/dev/tt2optimizer/assets/SkillTreeInfo10-4-22.csv";
+const activeArtifactCsv = "https://mb1zattts4.execute-api.us-east-1.amazonaws.com/dev/tt2optimizer/assets/ArtifactInfo10-4-22.csv";

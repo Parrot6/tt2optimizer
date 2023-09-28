@@ -130,7 +130,7 @@ var artifactTypeConversions = {
   TwilightBoost: Types.twilight,
   ShadowCloneSkillSpecialDamage: Types.sc,
   StreamOfBladesSkillAmount: Types.dagger,
-  CannonDamage: Types.goldGun,
+  CannonDamage: Types.cannonDamage,
   DualPetAmount: Types.pet
 }
 var artifactCSV;
@@ -248,7 +248,7 @@ function calculateArtifactEfficiencies(artiRow){
     var reductionAmt = 0;
     
     if(Gold.hasOwnProperty(artiRow['BonusType'])){
-        reductionAmt = Number(Goldreductions[SelectedGoldOption][artiRow['BonusType']]);
+        reductionAmt = playerProbabilities["goldEff"] * Number(Goldreductions[SelectedGoldOption][artiRow['BonusType']]);
     } else {
         switch(artiRow['BonusType']){
           case Types.ranged:
